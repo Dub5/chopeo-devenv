@@ -23,6 +23,10 @@ EOF
     rm /home/vagrant/temp-script.sh
 }
 
+# Setup requirements
+print_message 'Setting up requirements...'
+apt-get -y install libpq-dev
+
 # Setup hostname
 print_message "Setup hostname..."
 echo "hellocode" > /etc/hostname
