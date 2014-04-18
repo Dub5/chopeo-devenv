@@ -62,7 +62,7 @@ execute_with_rbenv "rbenv install 2.1.0 ; rbenv global 2.1.0"
 
 # Install Rails 4.1.0
 print_message 'Installing Rails 4.1.0...'
-execute_with_rbenv "gem install rails --version 4.1.0"
+execute_with_rbenv "gem install rails --version 4.1.0 --no-document"
 
 # Setup postgresql
 print_message "Setting up postgresql database..."
