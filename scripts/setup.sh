@@ -40,10 +40,12 @@ print_message "Setup environment..."
 export PS1="[\[\033[1;34m\]\u\[\033[0m\]@\h:\[\033[1;37m\]\w\[\033[0m\]]$ "
 
 # Aliases to make our life easier.
-alias restart_server='rake db:drop; rake db:create; rake db:migrate; rails server'
-alias recreate_db='rake db:drop; rake db:create: rake db:migrate'
 alias get-repositories='bash /vagrant/scripts/get-repositories.sh'
 alias goto-store='cd /vagrant/store'
+
+alias store-recreate-db='rake db:drop; rake db:create; rake db:migrate'
+alias store-server='rails server'
+alias store-db='rails dbconsole'
 
 # Load secret keys, if any.
 if [ -f ~/.secret_keys.sh ]; then
