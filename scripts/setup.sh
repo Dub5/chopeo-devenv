@@ -40,7 +40,7 @@ export PS1="[\[\033[1;34m\]\u\[\033[0m\]@\h:\[\033[1;37m\]\w\[\033[0m\]]$ "
 # Aliases to make our life easier.
 alias restart_server='rake db:drop; rake db:create; rake db:migrate; rails server'
 alias recreate_db='rake db:drop; rake db:create: rake db:migrate'
-alias clone-project-repos='bash /vagrant/scripts/get-repositories.sh'
+alias get-repositories='bash /vagrant/scripts/get-repositories.sh'
 
 # Load secret keys, if any.
 if [ -f ~/.secret_keys.sh ]; then
@@ -62,7 +62,6 @@ print_message "Setup hostname..."
 echo "hellocode" > /etc/hostname
 echo "127.0.0.1 hellocode" >> /etc/hosts
 
-print_message "Cloning the project repositories..."
-su vagrant -c "bash /vagrant/scripts/get-repositories.sh"
+print_message "Do NOT forget to get the source code using the 'get-repositories' command."
 
 print_message 'Done.'
