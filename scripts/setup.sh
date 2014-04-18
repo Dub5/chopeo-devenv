@@ -64,6 +64,9 @@ execute_with_rbenv "rbenv install 2.1.0 ; rbenv global 2.1.0"
 print_message 'Installing Rails 4.1.0...'
 execute_with_rbenv "gem install rails --version 4.1.0"
 
-print_message "Do NOT forget to get the source code using the 'get-repositories' command."
+# Setup postgresql
+print_message "Setting up postgresql database..."
+sudo -u postgres createuser -d -R -w -S vagrant
+sudo -u postgres createdb -O vagrant stores
 
 print_message 'Done.'
