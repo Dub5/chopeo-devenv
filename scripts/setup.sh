@@ -69,4 +69,17 @@ print_message "Setting up postgresql database..."
 sudo -u postgres createuser -d -R -w -S vagrant
 sudo -u postgres createdb -O vagrant stores
 
-print_message 'Done.'
+print_message "####################################################################################################"
+print_message "# Welcome to the Hello-Stores project development environment!                                      "
+print_message "#                                                                                                   "
+print_message "# You are not yet done! You need to do the following to finish the setup:                           "
+print_message "# 1) Get all the project repositories:                                                              "
+print_message "#    Run: get-repositories                                                                          "
+print_message "# 2) Get all the Rails project gems:                                                                "
+print_message "#    Run: goto-store; bundle install                                                                "
+print_message "# 3) Set up the application API keys. Put them in ~/.secret_keys.sh                                 "
+print_message "#                                                                                                   "
+print_message "# Info:                                                                                             "
+print_message "# PostreSQL user 'vagrant' created without password. 'stores' database created.                     "
+print_message "#                                                                                                   "
+print_message "####################################################################################################"
