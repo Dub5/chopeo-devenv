@@ -23,6 +23,10 @@ EOF
     rm /home/vagrant/temp-script.sh
 }
 
+# Setup locale, again.
+print_message 'Setting up locales...'
+/usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
 # Setup requirements
 print_message 'Setting up requirements...'
 apt-get -y install libpq-dev
@@ -73,8 +77,9 @@ execute_with_rbenv "gem install rails --version 4.1.0 --no-document"
 
 # Setup postgresql
 print_message "Setting up postgresql database..."
+pg_dropcluster --stop 9.1 main
+pg_createcluster --start 9.1 main
 sudo -u postgres createuser -d -R -w -S vagrant
-sudo -u postgres createdb -O vagrant stores
 
 print_message "####################################################################################################"
 print_message "# Welcome to the Hello-Stores project development environment!                                      "
