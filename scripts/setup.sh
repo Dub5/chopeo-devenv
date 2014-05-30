@@ -77,8 +77,8 @@ execute_with_rbenv "gem install rails --version 4.1.0 --no-document"
 
 # Setup postgresql
 print_message "Setting up postgresql database..."
-pg_dropcluster --stop 9.1 main
-pg_createcluster --start 9.1 main
+sudo -u postgres pg_dropcluster --stop 9.1 main
+sudo -u postgres pg_createcluster --start 9.1 main
 sudo -u postgres createuser -d -R -w -S vagrant
 
 print_message "####################################################################################################"
