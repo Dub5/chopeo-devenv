@@ -1,11 +1,18 @@
 #!/bin/bash
 
-print_message () {
-    tput setaf 3
-    tput bold
-    echo $1
-    tput sgr0
-}
+####################################################################################################
+# Hello Stores development environment.
+#
+# Sets up the specifics Ruby version, Rails gems and other requirements and adds some nice aliases
+# and scripts to work with this specific project.
+#
+####################################################################################################
+
+RUBY_VERSION=2.1.2
+RAILS_VERSION=4.1.1
+PG_VERSION=9.3
+
+####################################################################################################
 
 execute_with_rbenv () {
     `cat >/home/vagrant/temp-script.sh <<\EOF
@@ -23,22 +30,16 @@ EOF
     rm /home/vagrant/temp-script.sh
 }
 
-# Setup locale, again.
-print_message 'Setting up locales...'
-/usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
-
-# Setup requirements
-print_message 'Setting up requirements...'
-apt-get -y install libpq-dev
+export DEBIAN_FRONTEND=noninteractive
 
 # Setup hostname
-print_message "Setup hostname..."
+echo "Setup hostname..."
 echo "hellocode" > /etc/hostname
 echo "127.0.0.1 hellocode" >> /etc/hosts
 hostname hellocode
 
 # Setup environment
-print_message "Setup environment..."
+echo "Setup environment..."
 `cat >/home/vagrant/.environment.sh <<\EOF
 # Environment variables
 export PS1="[\[\033[1;34m\]\u\[\033[0m\]@\h:\[\033[1;37m\]\w\[\033[0m\]]$ "
@@ -67,31 +68,29 @@ touch /home/vagrant/.secret_keys.sh
 chown vagrant:vagrant /home/vagrant/.environment.sh
 chown vagrant:vagrant /home/vagrant/.secret_keys.sh
 
-# Install Ruby 2.1.0
-print_message 'Installing Ruby 2.1.0...'
-execute_with_rbenv "rbenv install 2.1.0 ; rbenv global 2.1.0"
+echo "Installing Ruby $RUBY_VERSION..."
+execute_with_rbenv "rbenv install $RUBY_VERSION ; rbenv global $RUBY_VERSION"
 
-# Install Rails 4.1.0
-print_message 'Installing Rails 4.1.0...'
-execute_with_rbenv "gem install rails --version 4.1.0 --no-document"
+echo "Installing Rails $RAILS_VERSION..."
+execute_with_rbenv "gem install rails --version $RAILS_VERSION --no-document"
 
 # Setup postgresql
-print_message "Setting up postgresql database..."
-sudo -u postgres pg_dropcluster --stop 9.1 main
-sudo -u postgres pg_createcluster --start 9.1 main
+echo "Setting up postgresql database..."
+sudo -u postgres pg_dropcluster --stop $PG_VERSION main
+sudo -u postgres pg_createcluster --start $PG_VERSION main
 sudo -u postgres createuser -d -R -w -S vagrant
 
-print_message "####################################################################################################"
-print_message "# Welcome to the Hello-Stores project development environment!                                      "
-print_message "#                                                                                                   "
-print_message "# You are not yet done! You need to do the following to finish the setup:                           "
-print_message "# 1) Get all the project repositories:                                                              "
-print_message "#    Run: get-repositories                                                                          "
-print_message "# 2) Get all the Rails project gems:                                                                "
-print_message "#    Run: goto-store; bundle install                                                                "
-print_message "# 3) Set up the application API keys. Put them in ~/.secret_keys.sh                                 "
-print_message "#                                                                                                   "
-print_message "# Info:                                                                                             "
-print_message "# PostreSQL user 'vagrant' created without password. 'stores' database created.                     "
-print_message "#                                                                                                   "
-print_message "####################################################################################################"
+echo "#####################################################################################"
+echo "# Welcome to the Hello-Stores project development environment!                       "
+echo "#                                                                                    "
+echo "# You are not yet done! You need to do the following to finish the setup:            "
+echo "# 1) Get all the project repositories:                                               "
+echo "#    Run: get-repositories                                                           "
+echo "# 2) Get all the Rails project gems:                                                 "
+echo "#    Run: goto-store; bundle install                                                 "
+echo "# 3) Set up the application API keys. Put them in ~/.secret_keys.sh                  "
+echo "#                                                                                    "
+echo "# Info:                                                                              "
+echo "# PostreSQL user 'vagrant' created without password. 'stores' database created.      "
+echo "#                                                                                    "
+echo "#####################################################################################"
