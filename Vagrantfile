@@ -19,6 +19,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", path: "scripts/setup.sh"
 
   config.vm.provider "virtualbox" do |v|
-    v.name = "Hello Stores Development Environment"
+    v.name = "Chopeo Development Environment"
   end
 end
