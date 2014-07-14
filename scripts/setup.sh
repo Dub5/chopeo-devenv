@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ####################################################################################################
-# Hello Stores development environment.
+# Chopeo development environment.
 #
 # Sets up the specifics Ruby version, Rails gems and other requirements and adds some nice aliases
 # and scripts to work with this specific project.
@@ -34,9 +34,9 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Setup hostname
 echo "Setup hostname..."
-echo "hellocode" > /etc/hostname
-echo "127.0.0.1 hellocode" >> /etc/hosts
-hostname hellocode
+echo "chopeo" > /etc/hostname
+echo "127.0.0.1 chopeo" >> /etc/hosts
+hostname chopeo
 
 # Setup environment
 echo "Setup environment..."
@@ -82,7 +82,7 @@ sudo -u postgres pg_createcluster --start $PG_VERSION main
 sudo -u postgres createuser -d -R -w -S vagrant
 
 echo "#####################################################################################"
-echo "# Welcome to the Hello-Stores project development environment!                       "
+echo "# Welcome to the Chopeo project development environment!                             "
 echo "#                                                                                    "
 echo "# You are not yet done! You need to do the following to finish the setup:            "
 echo "# 1) Get all the project repositories:                                               "
