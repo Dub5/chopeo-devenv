@@ -1,3 +1,6 @@
 .vagrant
 **/[.][#]*
 store/
+chopeo-front/
+chopeo-store/
+todo.org
