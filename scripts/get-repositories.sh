@@ -21,5 +21,5 @@ print_message 2 "Getting all project repositories."
 
 ## Add the project repositories after this line.
 
-download_repo "/vagrant/store" "git@github.com:HelloCodeMX/hello-store.git"
+download_repo "/vagrant/chopeo-store" "git@github.com:HelloCodeMX/chopeo-store.git"
 download_repo "/vagrant/chopeo-front" "git@github.com:HelloCodeMX/chopeo-front.git"

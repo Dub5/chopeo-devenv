@@ -46,7 +46,8 @@ export PS1="[\[\033[1;34m\]\u\[\033[0m\]@\h:\[\033[1;37m\]\w\[\033[0m\]]$ "
 
 # Aliases to make our life easier.
 alias get-repositories='bash /vagrant/scripts/get-repositories.sh'
-alias goto-store='cd /vagrant/store'
+alias goto-store='cd /vagrant/chopeo-store'
+alias goto-front='cd /vagrant/chopeo-front'
 
 alias store-recreate-db='bundle exec rake db:setup'
 alias store-server='bundle exec rails server'
