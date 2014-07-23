@@ -1,6 +1,7 @@
+.DS_Store
 .vagrant
 **/[.][#]*
 store/
-chopeo-front/
+chopeo-landing/
 chopeo-store/
 todo.org
