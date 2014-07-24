@@ -46,13 +46,14 @@ export PS1="[\[\033[1;34m\]\u\[\033[0m\]@\h:\[\033[1;37m\]\w\[\033[0m\]]$ "
 
 # Aliases to make our life easier.
 alias get-repositories='bash /vagrant/scripts/get-repositories.sh'
-alias goto-store='cd /vagrant/chopeo-store'
-alias goto-front='cd /vagrant/chopeo-front'
+alias store='cd /vagrant/chopeo-store'
+alias landing='cd /vagrant/chopeo-landing'
 
 alias store-recreate-db='bundle exec rake db:setup'
 alias store-server='bundle exec rails server'
 alias store-db='bundle exec rails dbconsole'
 alias store-console='bundle exec rails console'
+alias store-restart='touch /vagrant/chopeo-store/tmp/restart.txt'
 
 # Load secret keys, if any.
 if [ -f ~/.secret_keys.sh ]; then
@@ -80,6 +81,57 @@ echo "Setting up postgresql database..."
 sudo -u postgres pg_dropcluster --stop $PG_VERSION main
 sudo -u postgres pg_createcluster --start $PG_VERSION main
 sudo -u postgres createuser -d -R -w -S vagrant
+perl -i -p -e 's/local   all             all                                     peer/local all all trust/' /etc/postgresql/9.3/main/pg_hba.conf
+
+`cat >/etc/nginx/sites-available/chopeo-landing <<\EOF
+server {
+    listen 3000 default_server;
+    listen 3443 ssl default_server;
+
+    ssl_certificate     /vagrant/certificate/nginx.crt;
+    ssl_certificate_key /vagrant/certificate/nginx.key;
+
+    server_name www.lvh.me lvh.me;
+
+    root    /vagrant/chopeo-landing/;
+}
+EOF
+`
+
+`cat >/etc/nginx/sites-available/chopeo-stores <<\EOF
+server {
+    server_name *.lvh.me;
+
+    listen 3000;
+    listen 3443 ssl;
+
+    ssl_certificate     /vagrant/certificate/nginx.crt;
+    ssl_certificate_key /vagrant/certificate/nginx.key;
+
+    client_max_body_size 10M;
+
+    passenger_enabled on;
+
+    rails_env    development;
+    root         /vagrant/chopeo-store/public;
+
+    # redirect server error pages to the static page /50x.html
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+}
+EOF
+`
+
+perl -i -p -e 's/# passenger_root \/usr\/lib\/ruby\/vendor_ruby\/phusion_passenger\/locations\.ini\;\n/passenger_root \/usr\/lib\/ruby\/vendor_ruby\/phusion_passenger\/locations.ini;\n\tpassenger_ruby \/home\/vagrant\/.rbenv\/shims\/ruby;\n/' /etc/nginx/nginx.conf
+
+ln -s /etc/nginx/sites-available/chopeo-landing /etc/nginx/sites-enabled/chopeo-landing
+ln -s /etc/nginx/sites-available/chopeo-stores /etc/nginx/sites-enabled/chopeo-stores
+rm /etc/nginx/sites-enabled/default
+
+service nginx restart
+service postgresql restart
 
 echo "#####################################################################################"
 echo "# Welcome to the Chopeo project development environment!                             "
