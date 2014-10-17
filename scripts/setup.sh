@@ -8,8 +8,8 @@
 #
 ####################################################################################################
 
-RUBY_VERSION=2.1.2
-RAILS_VERSION=4.1.4
+RUBY_VERSION=2.1.3
+RAILS_VERSION=4.1.6
 PG_VERSION=9.3
 
 ####################################################################################################
@@ -69,6 +69,18 @@ touch /home/vagrant/.secret_keys.sh
 
 chown vagrant:vagrant /home/vagrant/.environment.sh
 chown vagrant:vagrant /home/vagrant/.secret_keys.sh
+
+# Upgrade rbenv
+`cat >/home/vagrant/upgrade_rbenv.sh <<\EOF
+cd ~/.rbenv
+git pull
+cd ~/.rbenv/plugins/ruby-build
+git pull
+EOF
+`
+chmod +x /home/vagrant/upgrade_rbenv.sh
+su vagrant -c "bash -c /home/vagrant/upgrade_rbenv.sh"
+rm /home/vagrant/upgrade_rbenv.sh
 
 echo "Installing Ruby $RUBY_VERSION..."
 execute_with_rbenv "rbenv install $RUBY_VERSION ; rbenv global $RUBY_VERSION"

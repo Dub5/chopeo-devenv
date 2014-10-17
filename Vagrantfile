@@ -21,5 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provider "virtualbox" do |v|
     v.name = "Chopeo Development Environment"
+    v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
   end
 end
