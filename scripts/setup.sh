@@ -110,6 +110,21 @@ server {
 EOF
 `
 
+`cat >/etc/nginx/sites-available/chopeo-help <<\EOF
+server {
+    listen 3000;
+    listen 3443 ssl;
+
+    ssl_certificate     /vagrant/certificate/nginx.crt;
+    ssl_certificate_key /vagrant/certificate/nginx.key;
+
+    server_name help.lvh.me ayuda.lvh.me;
+
+    root    /vagrant/chopeo-help/;
+}
+EOF
+`
+
 `cat >/etc/nginx/sites-available/chopeo-stores <<\EOF
 server {
     server_name *.lvh.me;
@@ -140,6 +155,7 @@ perl -i -p -e 's/# passenger_root \/usr\/lib\/ruby\/vendor_ruby\/phusion_passeng
 
 ln -s /etc/nginx/sites-available/chopeo-landing /etc/nginx/sites-enabled/chopeo-landing
 ln -s /etc/nginx/sites-available/chopeo-stores /etc/nginx/sites-enabled/chopeo-stores
+ln -s /etc/nginx/sites-available/chopeo-help /etc/nginx/sites-enabled/chopeo-help
 rm /etc/nginx/sites-enabled/default
 
 service nginx restart

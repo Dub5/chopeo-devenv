@@ -23,3 +23,4 @@ print_message 2 "Getting all project repositories."
 
 download_repo "/vagrant/chopeo-store" "git@github.com:HelloCodeMX/chopeo-store.git"
 download_repo "/vagrant/chopeo-landing" "git@github.com:HelloCodeMX/chopeo-landing.git"
+download_repo "/vagrant/chopeo-help" "git@github.com:HelloCodeMX/chopeo-help.git"
