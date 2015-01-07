@@ -8,8 +8,8 @@
 #
 ####################################################################################################
 
-RUBY_VERSION=2.1.5
-RAILS_VERSION=4.1.8
+RUBY_VERSION=2.2.0
+RAILS_VERSION=4.2.0
 PG_VERSION=9.3
 
 ####################################################################################################
@@ -31,6 +31,11 @@ EOF
 }
 
 export DEBIAN_FRONTEND=noninteractive
+
+
+# Setup requirements
+echo "Installing dependencies..."
+apt-get install libffi-dev
 
 # Setup hostname
 echo "Setup hostname..."
