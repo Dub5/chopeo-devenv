@@ -55,7 +55,7 @@ alias store='cd /vagrant/chopeo-store'
 alias landing='cd /vagrant/chopeo-landing'
 
 alias store-recreate-db='bundle exec rake db:setup'
-alias store-server='bundle exec rails server'
+alias store-server='bundle exec rails server -b 0.0.0.0'
 alias store-db='bundle exec rails dbconsole'
 alias store-console='bundle exec rails console'
 alias store-restart='touch /vagrant/chopeo-store/tmp/restart.txt'
