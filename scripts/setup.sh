@@ -8,8 +8,8 @@
 #
 ####################################################################################################
 
-RUBY_VERSION=2.2.0
-RAILS_VERSION=4.2.0
+RUBY_VERSION=2.2.1
+RAILS_VERSION=4.2.1
 PG_VERSION=9.3
 
 ####################################################################################################
@@ -35,7 +35,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Setup requirements
 echo "Installing dependencies..."
-apt-get install libffi-dev
+apt-get install libffi-dev libcurl4-gnutls-dev
 
 # Setup hostname
 echo "Setup hostname..."
