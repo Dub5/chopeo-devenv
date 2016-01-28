@@ -1,4 +1,5 @@
-#!/bin/bash
+
+  #!/bin/bash
 
 ####################################################################################################
 # Chopeo development environment.
@@ -8,9 +9,9 @@
 #
 ####################################################################################################
 
-RUBY_VERSION=2.2.3
-RAILS_VERSION=4.2.3
-PG_VERSION=9.3
+RUBY_VERSION=2.3.0
+RAILS_VERSION=4.2.5
+PG_VERSION=9.5
 
 ################################################################################
 # Add custom repositories
@@ -99,12 +100,15 @@ npm install npm -g
 ################################################################################
 # Install PostgreSQL
 ################################################################################
-apt-get install -y postgresql postgresql-contrib postgresql-client libpq-dev
+echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 9.5' | sudo tee -a '/etc/apt/sources.list.d/postgresql.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+apt-get update
+apt-get install -y postgresql postgresql-contrib-9.5 postgresql-client-9.5 libpq-dev
 
 sudo -u postgres pg_dropcluster --stop $PG_VERSION main
 sudo -u postgres pg_createcluster --start $PG_VERSION main
 sudo -u postgres createuser -d -R -w -S vagrant
-perl -i -p -e 's/local   all             all                                     peer/local all all trust/' /etc/postgresql/9.3/main/pg_hba.conf
+perl -i -p -e 's/local   all             all                                     peer/local all all trust/' /etc/postgresql/$PG_VERSION/main/pg_hba.conf
 
 service postgresql restart
 
@@ -124,21 +128,6 @@ server {
     server_name www.lvh.me lvh.me;
 
     root    /vagrant/chopeo-landing/;
-}
-EOF
-`
-
-`cat >/etc/nginx/sites-available/chopeo-help <<\EOF
-server {
-    listen 3000;
-    listen 3443 ssl;
-
-    ssl_certificate     /vagrant/certificate/nginx.crt;
-    ssl_certificate_key /vagrant/certificate/nginx.key;
-
-    server_name help.lvh.me ayuda.lvh.me;
-
-    root    /vagrant/chopeo-help/;
 }
 EOF
 `
@@ -173,7 +162,7 @@ perl -i -p -e 's/# passenger_root \/usr\/lib\/ruby\/vendor_ruby\/phusion_passeng
 
 ln -s /etc/nginx/sites-available/chopeo-landing /etc/nginx/sites-enabled/chopeo-landing
 ln -s /etc/nginx/sites-available/chopeo-stores /etc/nginx/sites-enabled/chopeo-stores
-ln -s /etc/nginx/sites-available/chopeo-help /etc/nginx/sites-enabled/chopeo-help
+# ln -s /etc/nginx/sites-available/chopeo-help /etc/nginx/sites-enabled/chopeo-help
 rm /etc/nginx/sites-enabled/default
 
 service nginx restart
